@@ -2,6 +2,7 @@ package com.example.taskmanager.controller;
 
 
 import com.example.taskmanager.dto.CreateTaskDto;
+import com.example.taskmanager.dto.UpdateTaskDto;
 import com.example.taskmanager.entity.TaskEntity;
 import com.example.taskmanager.services.TaskService;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,26 @@ public class TaskController {
            ResponseEntity.notFound().build(); //why build is used in this line; :-
        }
        return ResponseEntity.ok(tasks);  //What ResponseEntity Do and How it works here;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskEntity> getTaskById(@PathVariable("id") Integer id){
+
+        var task = taskService.getTaskById(id);
+        if(task == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(task);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<TaskEntity> updateTask(@PathVariable("id") Integer id , @RequestBody UpdateTaskDto dto){
+        var updatedTask = taskService.updateTask(id,dto.getDescription(), dto.getDescription(), dto.getCompleted());
+        if(updatedTask == null){
+            return  ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(updatedTask);
     }
 
     @PostMapping("")

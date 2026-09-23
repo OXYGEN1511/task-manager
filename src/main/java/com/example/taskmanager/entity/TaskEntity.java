@@ -1,57 +1,55 @@
 package com.example.taskmanager.entity;
-import java.util.Date;
 
-
+import java.time.LocalDate;
 
 public class TaskEntity {
-        private int Id;
+
+        private int id;
         private String title;
         private String description;
-        private Date deadline;
+        private LocalDate deadline;
         private boolean completed;
 
-        public TaskEntity(){}
-
-
+        public TaskEntity() {
+        }
 
         public int getId() {
-                return Id;
+                return id;
         }
 
         public void setId(int id) {
-                Id = id;
+                this.id = id;
         }
 
-        public String getTitle(){
+        public String getTitle() {
                 return title;
         }
 
         public void setTitle(String title) {
                 this.title = title;
         }
-        public String getDescription(){
+
+        public String getDescription() {
                 return description;
         }
 
-        public void setDescription(String description){
+        public void setDescription(String description) {
                 this.description = description;
         }
 
-        public Date getDeadline(){
+        public LocalDate getDeadline() {
                 return deadline;
         }
 
-        public void setDeadline(Date deadline){
+        public void setDeadline(LocalDate deadline) {
                 this.deadline = deadline;
         }
 
-        public void setCompleted(boolean b){
-                this.completed = b;
+        public boolean isCompleted() {
+                return completed;
         }
 
-
-
-
-
-
+        public void setCompleted(boolean completed) {
+                this.completed = completed;
+        }
 }
