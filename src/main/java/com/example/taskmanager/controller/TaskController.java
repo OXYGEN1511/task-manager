@@ -2,9 +2,12 @@ package com.example.taskmanager.controller;
 
 
 import com.example.taskmanager.dto.CreateTaskDto;
+import com.example.taskmanager.dto.TaskResponseDto;
 import com.example.taskmanager.dto.UpdateTaskDto;
 import com.example.taskmanager.entity.TaskEntity;
+import com.example.taskmanager.services.NotesService;
 import com.example.taskmanager.services.TaskService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +17,12 @@ import java.util.List;
 @RequestMapping("/task")
 public class TaskController {
     private final TaskService taskService;
+    private final NotesService notesService;
 
-    public TaskController(TaskService task){
+    private ModelMapper modelMapper = new  ModelMapper();
+    public TaskController(TaskService task , NotesService note){
         this.taskService = task;
+        this.notesService = note;
     }
 
     @GetMapping("")
@@ -32,9 +38,16 @@ public class TaskController {
     public ResponseEntity<TaskEntity> getTaskById(@PathVariable("id") Integer id){
 
         var task = taskService.getTaskById(id);
+
+        var notes = notesService.getNotesForTask(id);
+
         if(task == null){
             return ResponseEntity.notFound().build();
         }
+
+        var taskResponse =modelMapper.map(task, TaskResponseDto.class);
+        taskResponse.setNotes(notes);
+
         return ResponseEntity.ok(task);
     }
 
